@@ -4,7 +4,9 @@ const accesos = [
   { to: '/closet', title: 'Mi closet' },
   { to: '/generar-outfit', title: 'Generar outfit' },
   { to: '/crear-outfit', title: 'Crear outfit' },
-  { to: '/mis-outfits', title: 'Mis outfits' }
+  { to: '/mis-outfits', title: 'Mis outfits' },
+  { to: '/perfil', title: 'Mi Perfil' }
+
 ]
 
 export default function Dashboard() {
