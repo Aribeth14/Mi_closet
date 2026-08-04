@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 const accesos = [
   { to: '/closet', title: 'Mi closet' },
+  { to: '/generar-outfit', title: 'Generar outfit' },
   { to: '/crear-outfit', title: 'Crear outfit' },
   { to: '/mis-outfits', title: 'Mis outfits' }
 ]

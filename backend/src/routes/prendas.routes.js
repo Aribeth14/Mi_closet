@@ -9,7 +9,7 @@ const router=Router()
 router.use(verificarToken)
 
 router.get('/',listarPrendas)
-router.get('/generar-outfits',generarOutfit)
+router.get('/generar-outfit',generarOutfit)
 router.post('/',upload.single('imagen'),crearPrenda)
 router.delete('/:id',eliminarPrenda)
 
