@@ -1,4 +1,4 @@
-import mongoose from 'mongoose  '
+import mongoose from 'mongoose'
 
 const prendaSchema = mongoose.Schema(
     {
@@ -11,7 +11,8 @@ const prendaSchema = mongoose.Schema(
         },
         color:String,
         temporada:{type:String,default:'todo el año'},
-        imagenURL:{type:String, required:true}
+        imagenURL:{type:String, required:true},
+        imamgenPublicId:String
     },
     {timestamps:true}
 )
