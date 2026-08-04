@@ -11,6 +11,11 @@ const prendaSchema = mongoose.Schema(
         },
         color:String,
         temporada:{type:String,default:'todo el año'},
+        ocasion:{
+            type:String,
+            enum:['casual', 'formal', 'deportivo', 'fiesta', 'trabajo'],
+            default:'casual'
+        },
         imagenURL:{type:String, required:true},
         imamgenPublicId:String
     },

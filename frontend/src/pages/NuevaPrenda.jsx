@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import api from '../api'
 
 const CATEGORIAS = ['top', 'bottom', 'vestido', 'calzado', 'accesorio']
+const OCASIONES = ['casual', 'formal', 'deportivo', 'fiesta', 'trabajo']
+
 
 export default function NuevaPrenda() {
-  const [form, setForm] = useState({ nombre: '', categoria: 'top', color: '' })
+  const [form, setForm] = useState({ nombre: '', categoria: 'top', color: '', ocasion: 'casual' })
   const [imagen, setImagen] = useState(null)
   const [preview, setPreview] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -25,6 +27,7 @@ export default function NuevaPrenda() {
       data.append('nombre', form.nombre)
       data.append('categoria', form.categoria)
       data.append('color', form.color)
+      data.append('ocasion', form.ocasion)
       if (imagen) data.append('imagen', imagen)
 
       await api.post('/prendas', data, {
@@ -77,6 +80,15 @@ export default function NuevaPrenda() {
           style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)', color: 'var(--color-text)' }}
         >
           {CATEGORIAS.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+
+        <select
+          value={form.ocasion}
+          onChange={(e) => setForm({ ...form, ocasion: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl border text-sm outline-none capitalize"
+          style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)', color: 'var(--color-text)' }}
+        >
+          {OCASIONES.map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
 
         <input
