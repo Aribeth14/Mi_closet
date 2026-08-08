@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../api'
-import Maniqui from '../components/Maniqui'
+import FlatLay from '../components/FlatLay'
 
 export default function CrearOutfit() {
   const [prendas, setPrendas] = useState([])
@@ -8,18 +8,11 @@ export default function CrearOutfit() {
   const [nombre, setNombre] = useState('')
   const [guardando, setGuardando] = useState(false)
   const [mensaje, setMensaje] = useState('')
-  const [medidas, setMedidas] = useState({})
 
   useEffect(() => {
     api.get('/prendas')
       .then(({ data }) => setPrendas(data))
       .catch(() => setPrendas([]))
-  }, [])
-
-  useEffect(() => {
-    api.get('/usuarios/perfil')
-      .then(({ data }) => setMedidas(data.medidas || {}))
-      .catch(() => {})
   }, [])
 
   const toggle = (id) => {
@@ -102,7 +95,7 @@ export default function CrearOutfit() {
         className="rounded-2xl border overflow-hidden min-h-[480px]"
         style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}
       >
-        <Maniqui medidas={medidas} />
+        <FlatLay prendas={prendas.filter((p) => seleccionadas.includes(p._id))} />
       </div>
     </div>
   )

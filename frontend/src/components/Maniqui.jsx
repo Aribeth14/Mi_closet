@@ -1,7 +1,6 @@
-import { Suspense, useEffect, useRef } from 'react'
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF } from '@react-three/drei'
-import * as THREE from 'three'
 
 const REFERENCIA = {
   estatura: 165,
@@ -10,38 +9,31 @@ const REFERENCIA = {
   cadera: 95
 }
 
+// Valores medidos directamente del archivo maniqui.glb (fijos)
+const CENTRO_X = 6.3975
+const CENTRO_Z = 0.0905
+const PIE_Y = -0.002
+const ALTO_ORIGINAL = 1.912
+const ALTO_OBJETIVO = 1.7
+const FACTOR = ALTO_OBJETIVO / ALTO_ORIGINAL
+
 function ModeloManiqui({ medidas }) {
   const { scene } = useGLTF('/models/maniqui.glb')
-  const interno = useRef()
-
-  useEffect(() => {
-    if (!interno.current) return
-
-    // 1. Medimos el modelo tal como vino (sin saber sus unidades originales)
-    const caja = new THREE.Box3().setFromObject(interno.current)
-    const tamano = new THREE.Vector3()
-    caja.getSize(tamano)
-
-    // 2. Lo escalamos para que mida siempre 1.7 unidades de alto, sin importar el origen
-    const alturaObjetivo = 1.7
-    const factor = tamano.y > 0 ? alturaObjetivo / tamano.y : 1
-    interno.current.scale.setScalar(factor)
-
-    // 3. Recalculamos la caja ya escalada, y lo centramos + apoyamos los pies en el piso (y=0)
-    const cajaFinal = new THREE.Box3().setFromObject(interno.current)
-    interno.current.position.x -= (cajaFinal.min.x + cajaFinal.max.x) / 2
-    interno.current.position.z -= (cajaFinal.min.z + cajaFinal.max.z) / 2
-    interno.current.position.y -= cajaFinal.min.y
-  }, [scene])
 
   const m = { ...REFERENCIA, ...medidas }
   const escalaAltura = m.estatura / REFERENCIA.estatura
   const promedioAncho =
     (m.busto / REFERENCIA.busto + m.cintura / REFERENCIA.cintura + m.cadera / REFERENCIA.cadera) / 3
 
+  // Escala ÚNICA (no distinta por eje) para no deformar el esqueleto interno del modelo
+  const escalaGeneral = (escalaAltura + promedioAncho) / 2
+
   return (
-    <group scale={[promedioAncho, escalaAltura, promedioAncho]} position={[0, -0.85, 0]}>
-      <group ref={interno}>
+    <group scale={escalaGeneral}>
+      <group
+        scale={FACTOR}
+        position={[-CENTRO_X * FACTOR, -PIE_Y * FACTOR, -CENTRO_Z * FACTOR]}
+      >
         <primitive object={scene} />
       </group>
     </group>
@@ -50,7 +42,7 @@ function ModeloManiqui({ medidas }) {
 
 export default function Maniqui({ medidas }) {
   return (
-    <Canvas camera={{ position: [0, 0.15, 2.3], fov: 32 }}>
+    <Canvas camera={{ position: [0, 1, 2.3], fov: 30 }}>
       <ambientLight intensity={0.8} />
       <directionalLight position={[3, 5, 3]} intensity={1} />
       <directionalLight position={[-3, 2, -2]} intensity={0.4} />
@@ -61,13 +53,15 @@ export default function Maniqui({ medidas }) {
 
       <OrbitControls
         enablePan={false}
+        enableZoom={false}
         minDistance={1}
-        maxDistance={5}
-        target={[0, 0.35, 0]}
+        maxDistance={6}
+        minPolarAngle={Math.PI / 2}
+        maxPolarAngle={Math.PI / 2}
+        target={[0, 0.95, 0]}
       />
     </Canvas>
   )
 }
 
 useGLTF.preload('/models/maniqui.glb')
-
