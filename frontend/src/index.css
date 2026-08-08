@@ -25,6 +25,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300..700;1,300..700&family=Inter:wght@300..600&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -34,4 +38,23 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.45s ease-out;
+}
+
+.animate-fade-in-delay {
+  animation: fadeInUp 0.45s ease-out 0.1s backwards;
 }

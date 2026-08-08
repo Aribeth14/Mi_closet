@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 
 export default function Landing() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-24">
+    <div>
+      <img src="/Logo.png" alt="Mi Closet" className="h-14 w-14 object-contain mb-8" />
       <p className="text-sm uppercase tracking-[0.2em] mb-6" style={{ color: 'var(--color-brown)' }}>
         Proyecto personal
       </p>
