@@ -30,7 +30,7 @@ export default function Navbar() {
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4 gap-4 overflow-x-auto">
         <Link
           to="/dashboard"className="flex items-center gap-2 shrink-0">
-          <img src="/Logo.png" alt="Mi Closet" className="h-8 w-8 object-contain" />
+          <img src="/Logo.png" alt="Mi Closet" className="h-9 w-9 object-contain" />
           <span className="text-xl" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text)' }}>
             Mi Closet
           </span>
